@@ -1,0 +1,12 @@
+
+- name: Install rabbitmq package
+  apt:
+    name: rabbitmq-server
+    state: present
+
+- name: Add openstack user
+  command: " rabbitmqctl add_user openstack hoa13ogatarabbit "
+
+- name: Permit configuration
+  command: ' rabbitmqctl set_permissions openstack ".*" ".*" ".*" '
+

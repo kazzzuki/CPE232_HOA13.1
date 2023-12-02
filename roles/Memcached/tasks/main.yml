@@ -1,0 +1,19 @@
+
+- name: Install Memcached package
+  apt:
+    name:
+      - memcached
+      - python3-memcache
+    state: present
+
+- name: Edit /etc/memcached.conf file
+  lineinfile:
+    path: /etc/memcached.conf
+    regexp: '-l 127.0.0.1'
+    line: "-l 10.0.0.11"
+
+- name: Restart Memcached service
+  service:
+    name: memcached
+    state: restarted
+    enabled: true

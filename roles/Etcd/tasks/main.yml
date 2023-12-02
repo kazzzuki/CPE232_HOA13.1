@@ -1,0 +1,17 @@
+
+- name: Install etcd package
+  apt:
+    name: etcd
+    state: present
+
+- name: Edit /etc/default/etcd file
+  lineinfile:
+    path: /etc/default/etcd
+    regexp: 'ETCD_INITIAL_CLUSTER, ETCD_INITIAL_ADVERTISE_PEER_URLS, ETCD_ADVERTISE_CLIENT_URLS, ETCD_LISTEN_CLIENT_URLS'
+    line: 'ETCD_INITIAL_CLUSTER=\"controller=http://10.0.0.11:2380\" ETCD_INITIAL_ADVERTISE_PEER_URLS=\"http://10.0.0.11:2380\" ETCD_ADVERTISE_CLIENT_URLS=\"http://10.0.0.11:2379\" '
+
+- name: Enable and Restart Etcd service
+  systemd:
+    name: etcd
+    enabled: yes
+    state: restarted

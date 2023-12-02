@@ -1,0 +1,21 @@
+
+- name: Install NTP packages
+  apt:
+    name: chrony
+    state: present
+
+- name: Edit chrony.conf
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    line: "server kazuki iburst"
+
+- name: Enable other nodes to connect
+  lineinfile:
+    path: /etc/chrony/chrony.conf
+    line: "allow 10.0.0.0/24"
+
+- name: Restart Chrony service
+  service:
+    name: chrony
+    state: restarted
+    enabled: true
